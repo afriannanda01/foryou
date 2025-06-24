@@ -316,33 +316,32 @@
 
   <!-- Title -->
   <h1 class="title"><span id="title"></span></h1>
-  <!-- Audio -->
+  <!-- Audio Player -->
 <audio id="bg-music" preload="auto" loop>
   <source src="audio/love-page.mp3" type="audio/mpeg" />
   Your browser does not support the audio element.
 </audio>
 
-<!-- Script: play audio after animation delay -->
+<!-- Play audio after flower animation -->
 <script>
   window.addEventListener("DOMContentLoaded", () => {
     const audio = document.getElementById("bg-music");
+    audio.volume = 0.5;
 
-    // Waktu delay disesuaikan dengan waktu bunga mekar (ubah jika perlu)
-    const delay = 5000; // 5 detik
-
-    setTimeout(() => {
-      // Coba play otomatis
+    const playMusic = () => {
       const playPromise = audio.play();
-
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          // Autoplay gagal -> tunggu interaksi user
+          // Fallback: play after user click
           document.body.addEventListener("click", () => {
             audio.play();
           }, { once: true });
         });
       }
-    }, delay);
+    };
+
+    // Delay disesuaikan dengan bunga mekar (ubah sesuai animasimu)
+    setTimeout(playMusic, 5000);
   });
 </script>
 </body>
