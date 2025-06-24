@@ -316,33 +316,51 @@
 
   <!-- Title -->
   <h1 class="title"><span id="title"></span></h1>
-  <!-- Audio Player -->
+  <!-- Audio -->
 <audio id="bg-music" preload="auto" loop>
   <source src="audio/love-page.mp3" type="audio/mpeg" />
   Your browser does not support the audio element.
 </audio>
 
-<!-- Play audio after flower animation -->
+<!-- Import JavaScript -->
+<script src="js/main.js"></script>
+
+<!-- Script untuk teks dan musik -->
 <script>
-  window.addEventListener("DOMContentLoaded", () => {
-    const audio = document.getElementById("bg-music");
-    audio.volume = 0.5;
+  onload = () => {
+    const c = setTimeout(() => {
+      document.body.classList.remove("not-loaded");
 
-    const playMusic = () => {
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Fallback: play after user click
-          document.body.addEventListener("click", () => {
-            audio.play();
-          }, { once: true });
-        });
+      const titles = ('I LOVE U').split('');
+      const titleElement = document.getElementById('title');
+      let index = 0;
+
+      function appendTitle() {
+        if (index < titles.length) {
+          titleElement.innerHTML += titles[index];
+          index++;
+          setTimeout(appendTitle, 300); // Ketik huruf per 300ms
+        } else {
+          // Setelah teks selesai diketik, mainkan musik
+          const audio = document.getElementById("bg-music");
+          audio.volume = 0.5;
+
+          const playPromise = audio.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Jika autoplay gagal, tunggu klik user
+              document.body.addEventListener("click", () => {
+                audio.play();
+              }, { once: true });
+            });
+          }
+        }
       }
-    };
 
-    // Delay disesuaikan dengan bunga mekar (ubah sesuai animasimu)
-    setTimeout(playMusic, 5000);
-  });
+      appendTitle();
+      clearTimeout(c);
+    }, 1000); // Delay awal sebelum mulai ketik
+  };
 </script>
 </body>
 
