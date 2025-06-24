@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,7 +7,6 @@
   <link rel="shortcut icon" href="images/gift.png" type="image/x-icon">
   <link rel="stylesheet" href="css/index.css">
 
-  <!-- Document Title -->
   <title>FLOWERS FOR SOMEONE</title>
 </head>
 
@@ -25,11 +25,34 @@
           d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z">
         </path>
       </svg>
-
       <span class="text">Open</span>
     </a>
   </div>
 
+  <!-- Audio -->
+  <audio id="bg-music" autoplay loop>
+    <source src="audio/love-page.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Script for autoplay compatibility -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById("bg-music");
+      audio.volume = 0.5;
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          document.body.addEventListener("click", () => {
+            audio.play();
+          }, { once: true });
+        });
+      }
+    });
+  </script>
+
+  <!-- Your existing JS -->
   <script src="js/index.js"></script>
 </body>
 
