@@ -325,9 +325,28 @@
 <!-- Import JavaScript -->
 <script src="js/main.js"></script>
 
-<!-- Script untuk teks dan musik -->
+<!-- Script musik dan teks -->
 <script>
   onload = () => {
+    // Putar musik duluan
+    const audio = document.getElementById("bg-music");
+    audio.volume = 0.5;
+
+    const playMusic = () => {
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Jika autoplay gagal, tunggu klik user
+          document.body.addEventListener("click", () => {
+            audio.play();
+          }, { once: true });
+        });
+      }
+    };
+
+    playMusic(); // Musik langsung mulai
+
+    // Setelah itu mulai animasi teks
     const c = setTimeout(() => {
       document.body.classList.remove("not-loaded");
 
@@ -339,27 +358,13 @@
         if (index < titles.length) {
           titleElement.innerHTML += titles[index];
           index++;
-          setTimeout(appendTitle, 300); // Ketik huruf per 300ms
-        } else {
-          // Setelah teks selesai diketik, mainkan musik
-          const audio = document.getElementById("bg-music");
-          audio.volume = 0.5;
-
-          const playPromise = audio.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              // Jika autoplay gagal, tunggu klik user
-              document.body.addEventListener("click", () => {
-                audio.play();
-              }, { once: true });
-            });
-          }
+          setTimeout(appendTitle, 500); // Durasi per huruf diperpanjang (500ms)
         }
       }
 
       appendTitle();
       clearTimeout(c);
-    }, 1000); // Delay awal sebelum mulai ketik
+    }, 1000); // Delay awal 1 detik
   };
 </script>
 </body>
